@@ -33,7 +33,7 @@ class Product extends GetView<ProductController> {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal:  20.h),
+            padding: EdgeInsets.symmetric(horizontal: 20.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -100,8 +100,7 @@ class Product extends GetView<ProductController> {
                               fontSize: 16.sp),
                           decoration: const InputDecoration(
                               hintText: '112096',
-                              hintStyle:
-                                  TextStyle(color: AppColors.mainColor),
+                              hintStyle: TextStyle(color: AppColors.mainColor),
                               contentPadding: EdgeInsets.zero,
                               border: InputBorder.none,
                               isCollapsed: true,
@@ -161,9 +160,9 @@ class Product extends GetView<ProductController> {
                                               ? const Center(
                                                   child:
                                                       CircularProgressIndicator(
-                                                        color: AppColors.mainColor,
-                                                        strokeWidth: 2,
-                                                      ),
+                                                    color: AppColors.mainColor,
+                                                    strokeWidth: 2,
+                                                  ),
                                                 )
                                               : Autocomplete<String>(
                                                   optionsBuilder:
@@ -190,12 +189,31 @@ class Product extends GetView<ProductController> {
                                                       textEditingController,
                                                       focusNode,
                                                       onFieldSubmitted) {
-                                                    controller.focusNodes
-                                                        .add(focusNode);
-                                                    controller
-                                                        .productControllers
-                                                        .add(
-                                                            textEditingController);
+                                                    // Ensure `productControllers` has a unique controller for each row
+                                                    if (controller
+                                                            .productControllers
+                                                            .length <=
+                                                        index) {
+                                                      controller
+                                                          .productControllers
+                                                          .add(
+                                                              textEditingController);
+                                                      controller
+                                                          .focusNodes
+                                                          .add(
+                                                              focusNode);
+                                                    } else {
+                                                      // Update the controller reference if already present
+                                                      textEditingController =
+                                                          controller
+                                                                  .productControllers[
+                                                              index];
+                                                      focusNode =
+                                                          controller
+                                                                  .focusNodes[
+                                                              index];
+                                                    }
+
                                                     return TextField(
                                                       onChanged: (value) {
                                                         controller.moveFocus(
@@ -222,8 +240,7 @@ class Product extends GetView<ProductController> {
                                             behavior:
                                                 HitTestBehavior.translucent,
                                             onLongPress: () {
-                                              controller.isDialogButton =
-                                                  false;
+                                              controller.isDialogButton = false;
                                               showDialog(
                                                 context: context,
                                                 builder: (context) {
@@ -256,8 +273,7 @@ class Product extends GetView<ProductController> {
                                                   context: context,
                                                   builder: (context) {
                                                     return Dialog(
-                                                      child:
-                                                          InteractiveViewer(
+                                                      child: InteractiveViewer(
                                                         panEnabled:
                                                             true, // Enable panning
                                                         minScale:

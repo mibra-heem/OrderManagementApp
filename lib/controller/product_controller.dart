@@ -8,7 +8,7 @@ class ProductController extends GetxController {
   ApiClient apiClient;
   ProductController({required this.apiClient});
 
-  int rows = 12;
+  int rows = 2;
   int totalQty = 0;
   final _imagePicker = ImagePicker();
   final orderNoController = TextEditingController();
@@ -136,10 +136,18 @@ class ProductController extends GetxController {
   }
 
   void addRow() {
-    var productLength = productControllers.length;
-    var qtyLength = qtyControllers.length;
+    var productLength = 0;
+    var qtyLength = 0;
+    productLength = productControllers.length;
+    qtyLength = qtyControllers.length;
+
+    print("Product Controllers length out of if statement : ${productControllers.length}");
+    print("Quantity Controllers length out of if statement : ${qtyControllers.length}");
+
     if (productControllers[productLength - 1].text.isNotEmpty &&
         qtyControllers[qtyLength - 1].text.isNotEmpty) {
+
+
       rows++;
       isNoteForFields.add(false);
       isImageForFields.add(false);
@@ -147,6 +155,8 @@ class ProductController extends GetxController {
       qtyControllers.add(TextEditingController());
       qtyFocusNodes.add(FocusNode());
       images?.add(null); // Add a null value for the new row
+      print("Product Controllers length : ${productControllers.length}");
+      print("Rows : ${rows}");
       update();
     }
   }
@@ -169,7 +179,11 @@ class ProductController extends GetxController {
   }
 
   void clearFields() {
+    print(productControllers.length);
+    print("Length of products");
     for (int i = 0; i < productControllers.length; i++) {
+      print("index : ${i}");
+      print("Product Controllers text : ${productControllers[i].text}");
       productControllers[i].clear();
       noteControllers[i].clear();
       qtyControllers[i].clear();

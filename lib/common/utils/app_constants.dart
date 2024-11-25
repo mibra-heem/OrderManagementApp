@@ -1,6 +1,6 @@
 class AppConstant{
 
-  static String BASE_URL = "https://app.giotheapp.com";
+  static String BASE_URL = "";
 
   static const API_SAMPLE = '/api-sample';
 

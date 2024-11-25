@@ -14,7 +14,7 @@ A Flutter application to streamline the process of creating and managing orders 
 **Dynamic Rows for Order Entry:**  
 - Editable Order ID.  
 - A table with dynamic rows for Quantity and Product inputs.  
-- Ability to add more rows using a floating action button (FAB).  
+- Automatic addition of new rows when all available rows are filled.
 
 **Product Field Functionalities:**  
 1. **Suggestions:** Shows product suggestions as the user types.  
@@ -37,7 +37,7 @@ A Flutter application to streamline the process of creating and managing orders 
 ### Main Screen (Order Entry):
 - Displays an editable Order ID field.  
 - Shows a dynamic table with two columns: Quantity and Product.  
-- Features a floating action button (FAB) to add new rows.  
+- New rows are automatically added when all the current rows are filled with valid data (e.g., a quantity and product are provided for all existing rows).
 - Product Field Functionalities:  
   - Type to see product suggestions.  
   - Long press to access:  

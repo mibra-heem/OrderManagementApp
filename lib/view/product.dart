@@ -33,7 +33,7 @@ class Product extends GetView<ProductController> {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(20.h),
+            padding: EdgeInsets.symmetric(horizontal:  20.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -160,7 +160,10 @@ class Product extends GetView<ProductController> {
                                           controller.isLoading
                                               ? const Center(
                                                   child:
-                                                      CircularProgressIndicator(),
+                                                      CircularProgressIndicator(
+                                                        color: AppColors.mainColor,
+                                                        strokeWidth: 2,
+                                                      ),
                                                 )
                                               : Autocomplete<String>(
                                                   optionsBuilder:
@@ -279,7 +282,7 @@ class Product extends GetView<ProductController> {
                                                   });
                                             },
                                             child: const Icon(
-                                              Icons.camera_alt,
+                                              Icons.camera_alt_outlined,
                                               color: AppColors.mainColor,
                                             ),
                                           )

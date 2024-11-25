@@ -189,7 +189,7 @@ class Product extends GetView<ProductController> {
                                                       textEditingController,
                                                       focusNode,
                                                       onFieldSubmitted) {
-                                                    // Ensure `productControllers` has a unique controller for each row
+                                                    
                                                     if (controller
                                                             .productControllers
                                                             .length <=
@@ -203,7 +203,7 @@ class Product extends GetView<ProductController> {
                                                           .add(
                                                               focusNode);
                                                     } else {
-                                                      // Update the controller reference if already present
+                                                     
                                                       textEditingController =
                                                           controller
                                                                   .productControllers[

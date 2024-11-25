@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 class Global {
   static Future<void> init()async{
     
-    
     Get.put(ProductController(apiClient: ApiClient(appBaseUrl: AppConstant.BASE_URL)));
   }
 }

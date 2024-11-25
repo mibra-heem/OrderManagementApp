@@ -8,7 +8,7 @@ class ProductController extends GetxController {
   ApiClient apiClient;
   ProductController({required this.apiClient});
 
-  int rows = 2;
+  int rows = 12;
   int totalQty = 0;
   final _imagePicker = ImagePicker();
   final orderNoController = TextEditingController();

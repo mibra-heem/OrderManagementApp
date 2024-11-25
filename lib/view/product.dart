@@ -131,10 +131,10 @@ class Product extends GetView<ProductController> {
                                 controller: controller.qtyControllers[index],
                                 focusNode: controller.qtyFocusNodes[index],
                                 keyboardType: TextInputType
-                                    .number, // Allows only numeric keyboard
+                                    .number,
                                 inputFormatters: <TextInputFormatter>[
                                   FilteringTextInputFormatter
-                                      .digitsOnly, // Restricts input to digits only
+                                      .digitsOnly,
                                 ],
                                 onChanged: (value) {
                                   controller.moveQtyFocus(index, context);
@@ -275,11 +275,11 @@ class Product extends GetView<ProductController> {
                                                     return Dialog(
                                                       child: InteractiveViewer(
                                                         panEnabled:
-                                                            true, // Enable panning
+                                                            true,
                                                         minScale:
-                                                            0.5, // Minimum zoom level
+                                                            0.5,
                                                         maxScale:
-                                                            4.0, // Maximum zoom level
+                                                            4.0,
                                                         child: controller
                                                                         .images![
                                                                     index] !=

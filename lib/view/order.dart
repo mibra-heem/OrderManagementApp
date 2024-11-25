@@ -15,19 +15,33 @@ class Order extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text(
-          "Order Page"
-        ),
-      ),
+            toolbarHeight: 120.h,
+            flexibleSpace: Center(
+              child: Image.asset(
+                'assets/images/logo.png',
+              ),
+            ),
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.white,
+            leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back,
+              color: AppColors.mainColor,
+            ),
+            onPressed: (){
+              Get.back();
+            },
+          ),
+            automaticallyImplyLeading: true,
+          ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            
-              SizedBox(height: 80.h,),
               orderRows(
                 title: "Order #",
                 value: controller.orderNoController.text

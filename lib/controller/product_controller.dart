@@ -8,7 +8,7 @@ class ProductController extends GetxController {
   ApiClient apiClient;
   ProductController({required this.apiClient});
 
-  int rows = 14;
+  int rows = 3;
   int totalQty = 0;
   final _imagePicker = ImagePicker();
   final orderNoController = TextEditingController();
@@ -33,7 +33,7 @@ class ProductController extends GetxController {
   void onInit() async {
     super.onInit();
     print("Controller initialized");
-    
+
     isNoteForFields = List<bool>.generate(rows, (index) => false);
     isImageForFields = List<bool>.generate(rows, (index) => false);
     noteControllers = List<TextEditingController>.generate(
@@ -47,16 +47,16 @@ class ProductController extends GetxController {
   }
 
   void toggleActionButtons() {
-
     for (int i = 0; i < productControllers.length; i++) {
-
-      if (productControllers[i].text.isNotEmpty && qtyControllers[i].text.isNotEmpty) {
+      if (productControllers[i].text.isNotEmpty &&
+          qtyControllers[i].text.isNotEmpty) {
         isActionEnabled = true;
         update();
         break;
       }
 
-      if (productControllers[i].text.isEmpty && qtyControllers[i].text.isEmpty) {
+      if (productControllers[i].text.isEmpty &&
+          qtyControllers[i].text.isEmpty) {
         isActionEnabled = false;
         update();
         break;
@@ -67,7 +67,7 @@ class ProductController extends GetxController {
   void addQuantity() {
     totalQty = 0;
     for (int i = 0; i < qtyControllers.length; i++) {
-      totalQty += int.tryParse(qtyControllers[i].text) ?? 0; 
+      totalQty += int.tryParse(qtyControllers[i].text) ?? 0;
     }
   }
 
@@ -136,14 +136,19 @@ class ProductController extends GetxController {
   }
 
   void addRow() {
-    rows++;
-    isNoteForFields.add(false);
-    isImageForFields.add(false);
-    noteControllers.add(TextEditingController());
-    qtyControllers.add(TextEditingController());
-    qtyFocusNodes.add(FocusNode());
-    images?.add(null); // Add a null value for the new row
-    update();
+    var productLength = productControllers.length;
+    var qtyLength = qtyControllers.length;
+    if (productControllers[productLength - 1].text.isNotEmpty &&
+        qtyControllers[qtyLength - 1].text.isNotEmpty) {
+      rows++;
+      isNoteForFields.add(false);
+      isImageForFields.add(false);
+      noteControllers.add(TextEditingController());
+      qtyControllers.add(TextEditingController());
+      qtyFocusNodes.add(FocusNode());
+      images?.add(null); // Add a null value for the new row
+      update();
+    }
   }
 
   Future<void> getProducts() async {

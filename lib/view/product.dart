@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_developer_test/view/order.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,20 +17,20 @@ class Product extends GetView<ProductController> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Add Product'),
-          centerTitle: true,
-          surfaceTintColor: Colors.white,
+          toolbarHeight: 120.h,
+          flexibleSpace: Center(
+            child: Image.asset(
+              'assets/images/logo.png',
+            ),
+          ),
           backgroundColor: Colors.white,
-          leading: const Icon(Icons.menu),
+          surfaceTintColor: Colors.white,
+          leading: const Icon(
+            Icons.menu,
+            color: AppColors.mainColor,
+          ),
           automaticallyImplyLeading: true,
         ),
-        floatingActionButton: FloatingActionButton(
-            backgroundColor: Colors.white,
-            tooltip: 'Add rows',
-            child: const Center(child: Icon(Icons.add)),
-            onPressed: () {
-              controller.addRow();
-            }),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(20.h),
@@ -37,24 +38,39 @@ class Product extends GetView<ProductController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 GetBuilder<ProductController>(builder: (controller) {
-                  return controller.isActionEnabled
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                                onPressed: () {
-                                  controller.clearFields();
-                                },
-                                icon: const Icon(Icons.close)),
-                            IconButton(
-                                onPressed: () {
-                                  controller.addQuantity();
-                                  Get.to(Order());
-                                },
-                                icon: const Icon(Icons.arrow_forward))
-                          ],
-                        )
-                      : const SizedBox();
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            if (controller.isActionEnabled) {
+                              controller.clearFields();
+                            }
+                          },
+                          icon: Icon(
+                            Icons.close,
+                            color: controller.isActionEnabled
+                                ? AppColors.mainColor
+                                : Colors.grey,
+                          )),
+                      IconButton(
+                          onPressed: () {
+                            if (controller.isActionEnabled) {
+                              if (controller.orderNoController.text.isEmpty) {
+                                controller.orderNoController.text = "112096";
+                              }
+                              controller.addQuantity();
+                              Get.to(Order());
+                            }
+                          },
+                          icon: Icon(
+                            Icons.arrow_forward,
+                            color: controller.isActionEnabled
+                                ? AppColors.mainColor
+                                : Colors.grey,
+                          ))
+                    ],
+                  );
                 }),
                 SizedBox(
                   height: 20.h,
@@ -74,7 +90,7 @@ class Product extends GetView<ProductController> {
                     ),
                     SizedBox(
                         width: 120.w,
-                        height: 19.h,
+                        height: 20.h,
                         child: TextField(
                           cursorColor: AppColors.mainColor,
                           controller: controller.orderNoController,
@@ -84,7 +100,8 @@ class Product extends GetView<ProductController> {
                               fontSize: 16.sp),
                           decoration: const InputDecoration(
                               hintText: '112096',
-                              hintStyle: TextStyle(color: AppColors.mainColor),
+                              hintStyle:
+                                  TextStyle(color: AppColors.mainColor),
                               contentPadding: EdgeInsets.zero,
                               border: InputBorder.none,
                               isCollapsed: true,
@@ -92,14 +109,14 @@ class Product extends GetView<ProductController> {
                         ))
                   ],
                 ),
-                SizedBox(height: 20.h),
+                SizedBox(height: 30.h),
                 GetBuilder<ProductController>(
                   builder: (ProductController controller) {
                     return Table(
                       border: TableBorder.symmetric(
                         inside: BorderSide(
                           color: AppColors.mainColor,
-                          width: 0.5.w,
+                          width: 1.w,
                         ),
                       ),
                       columnWidths: {
@@ -109,13 +126,21 @@ class Product extends GetView<ProductController> {
                         return TableRow(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(left: 12.w, right: 6.w, top: 6.h),
+                              padding: EdgeInsets.only(
+                                  left: 12.w, right: 6.w, top: 6.h),
                               child: TextField(
                                 controller: controller.qtyControllers[index],
                                 focusNode: controller.qtyFocusNodes[index],
+                                keyboardType: TextInputType
+                                    .number, // Allows only numeric keyboard
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter
+                                      .digitsOnly, // Restricts input to digits only
+                                ],
                                 onChanged: (value) {
                                   controller.moveQtyFocus(index, context);
                                   controller.toggleActionButtons();
+                                  controller.addRow();
                                 },
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
@@ -139,27 +164,42 @@ class Product extends GetView<ProductController> {
                                                 )
                                               : Autocomplete<String>(
                                                   optionsBuilder:
-                                                      (TextEditingValue textEditingValue) {
-                                                    if (textEditingValue.text.isEmpty) {
-                                                      return const Iterable<String>.empty();
+                                                      (TextEditingValue
+                                                          textEditingValue) {
+                                                    if (textEditingValue
+                                                        .text.isEmpty) {
+                                                      return const Iterable<
+                                                          String>.empty();
                                                     }
-                                                    return controller.products.where((product) {
+                                                    return controller.products
+                                                        .where((product) {
                                                       return product
                                                           .toLowerCase()
-                                                          .contains(textEditingValue.text.toLowerCase());
+                                                          .contains(
+                                                              textEditingValue
+                                                                  .text
+                                                                  .toLowerCase());
                                                     });
                                                   },
-                                                  onSelected:(String selection) {},
+                                                  onSelected:
+                                                      (String selection) {},
                                                   fieldViewBuilder: (context,
                                                       textEditingController,
                                                       focusNode,
                                                       onFieldSubmitted) {
-                                                    controller.focusNodes.add(focusNode);
-                                                    controller.productControllers.add(textEditingController);
+                                                    controller.focusNodes
+                                                        .add(focusNode);
+                                                    controller
+                                                        .productControllers
+                                                        .add(
+                                                            textEditingController);
                                                     return TextField(
                                                       onChanged: (value) {
-                                                        controller.moveFocus(index, context);
-                                                        controller.toggleActionButtons();
+                                                        controller.moveFocus(
+                                                            index, context);
+                                                        controller
+                                                            .toggleActionButtons();
+                                                        controller.addRow();
                                                       },
                                                       controller:
                                                           textEditingController,
@@ -168,7 +208,10 @@ class Product extends GetView<ProductController> {
                                                           onFieldSubmitted
                                                               .call(),
                                                       decoration:
-                                                          const InputDecoration(border: InputBorder.none,),
+                                                          const InputDecoration(
+                                                        border:
+                                                            InputBorder.none,
+                                                      ),
                                                     );
                                                   },
                                                 ),
@@ -176,7 +219,8 @@ class Product extends GetView<ProductController> {
                                             behavior:
                                                 HitTestBehavior.translucent,
                                             onLongPress: () {
-                                              controller.isDialogButton = false;
+                                              controller.isDialogButton =
+                                                  false;
                                               showDialog(
                                                 context: context,
                                                 builder: (context) {
@@ -209,7 +253,8 @@ class Product extends GetView<ProductController> {
                                                   context: context,
                                                   builder: (context) {
                                                     return Dialog(
-                                                      child: InteractiveViewer(
+                                                      child:
+                                                          InteractiveViewer(
                                                         panEnabled:
                                                             true, // Enable panning
                                                         minScale:

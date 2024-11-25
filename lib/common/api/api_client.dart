@@ -6,14 +6,10 @@ class ApiClient extends GetConnect implements GetxService{
   late Map<String, String> _mainHeaders;
 
   ApiClient({required this.appBaseUrl}){
+
+    print(appBaseUrl);
     baseUrl = appBaseUrl;
     timeout = Duration(seconds: 30);
-    _mainHeaders={
-      'Content-type':'application/json; charset=UTF-8',
-    };
-  }
-
-  void updateHeader(String token){
     _mainHeaders={
       'Content-type':'application/json; charset=UTF-8',
     };

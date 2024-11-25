@@ -1,4 +1,4 @@
-# Miscellaneous
+`# Miscellaneous
 *.class
 *.log
 *.pyc
@@ -41,3 +41,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+#Sensitive Information
+lib/common/utils/app_constants.dart`
